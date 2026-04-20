@@ -1,45 +1,39 @@
 <?php
-session_start();
 include 'config.php';
 
 $error = "";
 
-if(isset($_POST['login'])){
+if(isset($_POST['register'])){
 
+    $fname = trim($_POST['fname']);
+    $mname = trim($_POST['mname']);
+    $lname = trim($_POST['lname']);
+    $number = trim($_POST['number']);
     $email = trim($_POST['email']);
-    $pass  = $_POST['password'];
+    $pass = $_POST['password'];
+    $cpass = $_POST['cpassword'];
 
-    $q = $conn->query("SELECT * FROM users WHERE email='$email' AND role='teacher'");
-
-    if($q && $q->num_rows > 0){
-
-        $u = $q->fetch_assoc();
-
-        if(password_verify($pass, $u['password'])){
-
-            $_SESSION['id'] = $u['id'];
-            $_SESSION['teacher_name'] = $u['name'];
-            $_SESSION['role'] = 'teacher';
-
-            header("Location: teacher_dashboard.php");
-            exit();
-
-        } else {
-            $error = " Wrong password!";
-        }
-
+    if($pass != $cpass){
+        $error = "Passwords do not match!";
     } else {
-        $error = " Account not found!";
+
+        $hashed = password_hash($pass, PASSWORD_DEFAULT);
+
+        $conn->query("INSERT INTO users 
+        (name, email, password, role) 
+        VALUES 
+        ('$fname $mname $lname', '$email', '$hashed', 'student')");
+
+        header("Location: student_login.php");
+        exit();
     }
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>Teacher Login</title>
+<title>Student Register</title>
 
 <style>
 body{
@@ -56,9 +50,9 @@ body{
 }
 
 .box{
-    width:380px;
+    width:420px;
     background:#fff;
-    padding:30px;
+    padding:25px;
     border-radius:15px;
     box-shadow:0 10px 30px rgba(0,0,0,0.2);
     position:relative;
@@ -78,72 +72,59 @@ body{
 
 h2{
     text-align:center;
-    margin-bottom:20px;
-    color:#333;
+    margin-bottom:15px;
 }
 
 input{
     width:100%;
     padding:12px;
-    margin:8px 0;
+    margin:6px 0;
     border:1px solid #ccc;
     border-radius:8px;
     outline:none;
 }
 
 input:focus{
-    border-color:#4facfe;
-    box-shadow:0 0 5px rgba(79,172,254,0.5);
+    border-color:#38f9d7;
+    box-shadow:0 0 5px rgba(56,249,215,0.5);
 }
-
 
 button{
     width:100%;
     padding:12px;
-    background:#4facfe;
-    color:white;
+    background:#00c6ff;
     border:none;
     border-radius:8px;
     font-size:16px;
     cursor:pointer;
+    margin-top:10px;
     transition:0.3s;
 }
 
 button:hover{
-    background:#00c6ff;
+    background:#2bd6b8;
     transform:scale(1.02);
 }
-
 
 .error{
     background:#ffe5e5;
     color:#b30000;
     padding:10px;
     border-radius:8px;
-    margin-bottom:10px;
     text-align:center;
+    margin-bottom:10px;
 }
 
-
-.register{
+.login-link{
     text-align:center;
-    margin-top:15px;
+    margin-top:10px;
     font-size:14px;
 }
 
-.register a{
-    color:#4facfe;
+.login-link a{
+    color:#38f9d7;
     font-weight:bold;
     text-decoration:none;
-}
-
-.register a:hover{
-    text-decoration:underline;
-}
-
-.register-box {
-text-align: center;
-padding-top: 20px;
 }
 </style>
 
@@ -154,7 +135,7 @@ padding-top: 20px;
 <div class="box">
 
 
-<h2> Teacher Login</h2>
+<h2>Student Register</h2>
 <h2>ACT 2-B</h2>
 
 <?php if($error != "") { ?>
@@ -163,21 +144,26 @@ padding-top: 20px;
 
 <form method="POST">
 
+<input name="fname" placeholder="First Name" required>
+
+<input name="mname" placeholder="Middle Name (Optional)">
+
+<input name="lname" placeholder="Last Name" required>
+
+<input name="number" placeholder="Phone Number" required>
+
 <input type="email" name="email" placeholder="Email" required>
 
 <input type="password" name="password" placeholder="Password" required>
 
-<button name="login">Login</button>
+<input type="password" name="cpassword" placeholder="Retype Password" required>
+
+<button name="register">Create Account</button>
 
 </form>
 
-<div class="register-box">
-
-    <div class="small-text">Don’t have a teacher account?</div>
-
-    <a href="teacher_register.php" class="register-btn">
-         Create Account
-    </a>
+<div class="login-link">
+    Already have an account? <a href="student_login.php">Login here</a>
 </div>
 
 </div>

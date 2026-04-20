@@ -6,40 +6,37 @@ $error = "";
 
 if(isset($_POST['login'])){
 
-    $email = trim($_POST['email']);
+    $email = $_POST['email'];
     $pass  = $_POST['password'];
 
-    $q = $conn->query("SELECT * FROM users WHERE email='$email' AND role='teacher'");
+    $q = $conn->query("SELECT * FROM users WHERE email='$email' AND role='student'");
 
     if($q && $q->num_rows > 0){
-
         $u = $q->fetch_assoc();
 
         if(password_verify($pass, $u['password'])){
 
-            $_SESSION['id'] = $u['id'];
-            $_SESSION['teacher_name'] = $u['name'];
-            $_SESSION['role'] = 'teacher';
+            $_SESSION['id']   = $u['id'];
+            $_SESSION['name'] = $u['name'];
+            $_SESSION['role'] = 'student';
 
-            header("Location: teacher_dashboard.php");
-            exit();
+            header("Location: student_dashboard.php");
+            exit;
 
         } else {
-            $error = " Wrong password!";
+            $error = "❌ Wrong password!";
         }
 
     } else {
-        $error = " Account not found!";
+        $error = "❌ Account not found!";
     }
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>Teacher Login</title>
+<title>Student Login</title>
 
 <style>
 body{
@@ -96,7 +93,6 @@ input:focus{
     box-shadow:0 0 5px rgba(79,172,254,0.5);
 }
 
-
 button{
     width:100%;
     padding:12px;
@@ -114,7 +110,6 @@ button:hover{
     transform:scale(1.02);
 }
 
-
 .error{
     background:#ffe5e5;
     color:#b30000;
@@ -123,7 +118,6 @@ button:hover{
     margin-bottom:10px;
     text-align:center;
 }
-
 
 .register{
     text-align:center;
@@ -140,11 +134,6 @@ button:hover{
 .register a:hover{
     text-decoration:underline;
 }
-
-.register-box {
-text-align: center;
-padding-top: 20px;
-}
 </style>
 
 </head>
@@ -152,10 +141,8 @@ padding-top: 20px;
 <body>
 
 <div class="box">
-
-
-<h2> Teacher Login</h2>
-<h2>ACT 2-B</h2>
+<h2>Student Login</h2>
+<h2>ACT 2-B </h2>
 
 <?php if($error != "") { ?>
     <div class="error"><?php echo $error; ?></div>
@@ -171,13 +158,9 @@ padding-top: 20px;
 
 </form>
 
-<div class="register-box">
-
-    <div class="small-text">Don’t have a teacher account?</div>
-
-    <a href="teacher_register.php" class="register-btn">
-         Create Account
-    </a>
+<div class="register">
+    Don’t have an account? <br>
+    <a href="student_register.php">Create Student Account</a>
 </div>
 
 </div>

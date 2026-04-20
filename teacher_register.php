@@ -153,6 +153,7 @@ padding-top: 20px;
 <div class="box">
 
 <h2> Teacher Register</h2>
+<h2>ACT 2-B</h2>
 
 <?php if($error) echo "<div class='error'>$error</div>"; ?>
 <?php if($success) echo "<div class='success'>$success</div>"; ?>

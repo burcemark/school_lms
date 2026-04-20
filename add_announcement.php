@@ -95,7 +95,7 @@ button:hover {
 
 <div class="container">
 
-<h2> Announcements</h2>
+<h2>Announcements</h2>
 
 <div class="top-actions">
     <a href="teacher_dashboard.php" class="btn back"> Back</a>
