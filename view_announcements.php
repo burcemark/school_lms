@@ -93,6 +93,7 @@ h2 {
     </div>
 
     <?php
+    // AI
     $res = $conn->query("SELECT * FROM announcements ORDER BY id DESC");
 
     if ($res->num_rows > 0) {

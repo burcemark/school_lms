@@ -138,6 +138,8 @@ body{
     <a href="add_assignment.php"> Assignments</a>
     <a href="add_grade.php"> Grades</a>
     <a href="attendance.php"> Attendance</a>
+    <a href="view_submissions.php"> Submissions</a>
+    <a href="view_students.php"> Students</a>
     <a href="logout.php"> Logout</a>
 </div>
 

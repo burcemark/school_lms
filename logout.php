@@ -1,10 +1,8 @@
 <?php
 session_start();
 
-/* SAVE ROLE BEFORE DESTROY */
 $role = $_SESSION['role'] ?? null;
 
-/* CLEAR SESSION */
 $_SESSION = [];
 session_destroy();
 ?>
@@ -59,7 +57,7 @@ p{
 <body>
 
 <div class="box">
-
+<!-- AI -->
 <div class="spinner"></div>
 
 <h2>Logging out...</h2>
@@ -67,6 +65,7 @@ p{
 
 </div>
 
+<!-- AI -->
 <script>
 setTimeout(function(){
 
@@ -77,7 +76,7 @@ setTimeout(function(){
     } else if(role === "student"){
         window.location.href = "student_login.php";
     } else {
-        window.location.href = "index.html";
+        window.location.href = "    ";
     }
 
 }, 1500);

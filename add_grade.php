@@ -20,9 +20,7 @@ if($sid){
     }
 }
 
-/* =========================
-   CHECK LOCK
-========================= */
+
 $locked = false;
 
 if($sid && $section && $term){
@@ -36,9 +34,6 @@ if($sid && $section && $term){
     }
 }
 
-/* =========================
-   FLOW CONTROL
-========================= */
 $allowInput = true;
 
 if($term == "MIDTERM"){
@@ -57,9 +52,7 @@ if($term == "FINALS"){
     }
 }
 
-/* =========================
-   SAVE
-========================= */
+// AI
 if(isset($_POST['save']) && !$locked && $allowInput){
 
     foreach($subjects as $sub){
@@ -82,13 +75,11 @@ if(isset($_POST['save']) && !$locked && $allowInput){
         grade='$grade'");
     }
 
-    $msg = "✅ Grades saved and LOCKED!";
+    $msg = "Grades saved and LOCKED!";
     $locked = true;
 }
+// 
 
-/* =========================
-   FETCH DATA
-========================= */
 $data = [];
 
 if($sid){
@@ -102,9 +93,7 @@ if($sid){
     }
 }
 
-/* =========================
-   CALCULATE + PRINT
-========================= */
+
 if(isset($_POST['calculate']) || isset($_POST['print'])){
 
     $res = $conn->query("SELECT subject, grade FROM grades 
@@ -114,7 +103,7 @@ if(isset($_POST['calculate']) || isset($_POST['print'])){
 
     $total = 0;
     $count = 0;
-
+    // AI
     $result .= "<div id='printArea'>";
     $result .= "<h2>$term Grade Report</h2>";
     $result .= "<p><b>ID:</b> $sid</p>";
@@ -123,6 +112,7 @@ if(isset($_POST['calculate']) || isset($_POST['print'])){
 
     $result .= "<table border='1' width='100%'>
     <tr><th>Subject</th><th>Final Grade</th></tr>";
+    //
 
     while($row = $res->fetch_assoc()){
 
